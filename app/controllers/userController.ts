@@ -2,6 +2,7 @@ import {createHttpError} from "https://deno.land/std@0.188.0/http/http_errors.ts
 import mongoose from "npm:mongoose";
 import {User} from "../models/User.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 
 export default {
 	// deno-lint-ignore no-explicit-any
@@ -82,8 +83,11 @@ export default {
 	deleteUser: async (ctx: any) => {
 		try {
 			const id = ctx.params.id;
+			if (!mongoose.Types.ObjectId.isValid(id)) {
+				throw createHttpError(400, "Invalid mongoose id");
+			}
 			const secretKey = ctx.request.headers.get("secretKey");
-			if (secretKey === null || secretKey !== "secret") {
+			if (secretKey === null || secretKey !== Deno.env.get("SECRET_KEY")) {
 				throw createHttpError(
 					401,
 					"Not authorised, please include a secret key"
