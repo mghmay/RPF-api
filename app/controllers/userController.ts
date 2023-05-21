@@ -8,10 +8,16 @@ export default {
 	getUsers: async (ctx: any) => {
 		try {
 			const users = await User.find().exec();
-			ctx.response.body = users;
+			ctx.response.body = {
+				success: true,
+				data: users,
+			};
 		} catch (e) {
 			ctx.response.status = e.status;
-			ctx.response.body = e.message;
+			ctx.response.body = {
+				success: false,
+				data: e.message,
+			};
 		}
 	},
 	// deno-lint-ignore no-explicit-any
@@ -25,10 +31,16 @@ export default {
 			if (user === null) {
 				throw createHttpError(404, "User not found");
 			}
-			ctx.response.body = user;
+			ctx.response.body = {
+				success: true,
+				data: user,
+			};
 		} catch (e) {
 			ctx.response.status = e.status;
-			ctx.response.body = e.message;
+			ctx.response.body = {
+				success: false,
+				data: e.message,
+			};
 		}
 	},
 	// deno-lint-ignore no-explicit-any
@@ -50,14 +62,20 @@ export default {
 			});
 			await user.save();
 			ctx.response.status = 201;
-			ctx.response.body = user;
+			ctx.response.body = {
+				success: true,
+				data: user,
+			};
 		} catch (e) {
 			if (e.name === "ValidationError" || e.code === 11000) {
 				ctx.response.status = 422;
 			} else {
 				ctx.response.status = e.status;
 			}
-			ctx.response.body = e.message;
+			ctx.response.body = {
+				success: false,
+				data: e.message,
+			};
 		}
 	},
 	// deno-lint-ignore no-explicit-any
@@ -75,10 +93,16 @@ export default {
 			if (user === null) {
 				throw createHttpError(404, "User not found");
 			}
-			ctx.response.body = `User ${id} deleted`;
+			ctx.response.body = {
+				success: true,
+				data: `User ${id} deleted`,
+			};
 		} catch (e) {
 			ctx.response.status = e.status;
-			ctx.response.body = e.message;
+			ctx.response.body = {
+				success: false,
+				data: e.message,
+			};
 		}
 	},
 };
