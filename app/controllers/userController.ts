@@ -51,7 +51,12 @@ export default {
 	deleteUser: async (ctx: any) => {
 		try {
 			const id = ctx.params.id;
-			const user = await User.findOneAndDelete({_id: id});
+			const secretKey = ctx.request.headers.get("secretKey");
+			if (secretKey === null || secretKey !== "secret") {
+				console.log("Error in secretKey");
+				throw new Error();
+			}
+			const user = await User.findOne({_id: id});
 			if (user === null) {
 				console.log("can't find user!");
 			}
