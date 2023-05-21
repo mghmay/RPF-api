@@ -1,5 +1,8 @@
 import {Application} from "https://deno.land/x/oak@v12.4.0/mod.ts";
 import {userRouter} from "./routes/userRouter.ts";
+import {initDb} from "./db.ts";
+
+initDb();
 
 const app = new Application();
 
