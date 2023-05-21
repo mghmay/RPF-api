@@ -20,6 +20,7 @@ db.users.insertMany([
 		password: "password1",
 		createdAt: Date.now(),
 		active: true,
+		__v: 0,
 	},
 	{
 		username: "Daphne",
@@ -27,6 +28,7 @@ db.users.insertMany([
 		password: "password2",
 		createdAt: Date.now(),
 		active: true,
+		__v: 0,
 	},
 	{
 		username: "Scooby",
@@ -34,5 +36,6 @@ db.users.insertMany([
 		password: "password3",
 		createdAt: Date.now(),
 		active: true,
+		__v: 0,
 	},
 ]);

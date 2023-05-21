@@ -68,6 +68,7 @@ export default {
 				data: user,
 			};
 		} catch (e) {
+			// check if mongoose returns a validation error or a duplicate unique key error
 			if (e.name === "ValidationError" || e.code === 11000) {
 				ctx.response.status = 422;
 			} else {
@@ -90,7 +91,7 @@ export default {
 			if (secretKey === null || secretKey !== Deno.env.get("SECRET_KEY")) {
 				throw createHttpError(
 					401,
-					"Not authorised, please include a secret key"
+					"Not authorised, please check your secret key"
 				);
 			}
 			const user = await User.findOneAndDelete({_id: id});
