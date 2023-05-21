@@ -51,7 +51,6 @@ export default {
 	deleteUser: async (ctx: any) => {
 		try {
 			const id = ctx.params.id;
-			console.log(id);
 			const user = await User.findOneAndDelete({_id: id});
 			if (user === null) {
 				console.log("can't find user!");
