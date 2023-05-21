@@ -1,32 +1,62 @@
+import {User} from "../models/User.ts";
+
 export default {
-	getUsers: (ctx: {request: any; response: any}) => {
+	// deno-lint-ignore no-explicit-any
+	getUsers: async (ctx: any) => {
 		try {
-			ctx.response.body = "getUsers";
-			ctx.request.body;
+			const users = await User.find().exec();
+			ctx.response.body = users;
 		} catch (e) {
 			ctx.response.status = e.status;
 			ctx.response.body = e.message;
 		}
 	},
-	getUserById: (ctx: {response: any}) => {
+	// deno-lint-ignore no-explicit-any
+	getUserById: async (ctx: any) => {
 		try {
-			ctx.response.body = "getUserById";
+			const id = ctx.params.id;
+			const user = await User.findById(id).exec();
+			if (user === null) {
+				console.log("no user!");
+				throw Error();
+			}
+			ctx.response.body = user;
 		} catch (e) {
 			ctx.response.status = e.status;
 			ctx.response.body = e.message;
 		}
 	},
-	createUser: async (ctx: {response: any}) => {
+	// deno-lint-ignore no-explicit-any
+	createUser: async (ctx: any) => {
 		try {
-			ctx.response.body = "createUser";
+			const requestBody = await ctx.request.body().value;
+			if (requestBody === null) {
+				console.log("request needs a body");
+				throw Error();
+			}
+			const user = new User({
+				username: requestBody.username,
+				email: requestBody.email,
+				password: requestBody.password,
+			});
+			await user.save();
+			ctx.response.status = 201;
+			ctx.response.body = user;
 		} catch (e) {
 			ctx.response.status = e.status;
 			ctx.response.body = e.message;
 		}
 	},
-	deleteUser: (ctx: {response: any}) => {
+	// deno-lint-ignore no-explicit-any
+	deleteUser: async (ctx: any) => {
 		try {
-			ctx.response.body = "deleteUser";
+			const id = ctx.params.id;
+			console.log(id);
+			const user = await User.findOneAndDelete({_id: id});
+			if (user === null) {
+				console.log("can't find user!");
+			}
+			ctx.response.body = `User ${id} deleted`;
 		} catch (e) {
 			ctx.response.status = e.status;
 			ctx.response.body = e.message;
