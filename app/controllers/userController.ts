@@ -1,3 +1,5 @@
+import {createHttpError} from "https://deno.land/std@0.188.0/http/http_errors.ts";
+import mongoose from "npm:mongoose";
 import {User} from "../models/User.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
@@ -16,10 +18,12 @@ export default {
 	getUserById: async (ctx: any) => {
 		try {
 			const id = ctx.params.id;
+			if (!mongoose.Types.ObjectId.isValid(id)) {
+				throw createHttpError(400, "Invalid mongoose id");
+			}
 			const user = await User.findById(id).exec();
 			if (user === null) {
-				console.log("no user!");
-				throw Error();
+				throw createHttpError(404, "User not found");
 			}
 			ctx.response.body = user;
 		} catch (e) {
@@ -32,14 +36,12 @@ export default {
 		try {
 			const requestBody = await ctx.request.body().value;
 			if (requestBody === null) {
-				console.log("request needs a body");
-				throw Error();
+				throw createHttpError(400, "Request needs a body");
 			}
 			// generate salt, default saltRounds is 10. Note: this can be increased to make password more secure
 			const salt = await bcrypt.genSalt();
 			//hash password with salt
 			const hashedPassword = await bcrypt.hash(requestBody.password, salt);
-			console.log(hashedPassword);
 
 			const user = new User({
 				username: requestBody.username,
@@ -50,7 +52,11 @@ export default {
 			ctx.response.status = 201;
 			ctx.response.body = user;
 		} catch (e) {
-			ctx.response.status = e.status;
+			if (e.name === "ValidationError" || e.code === 11000) {
+				ctx.response.status = 422;
+			} else {
+				ctx.response.status = e.status;
+			}
 			ctx.response.body = e.message;
 		}
 	},
@@ -60,12 +66,14 @@ export default {
 			const id = ctx.params.id;
 			const secretKey = ctx.request.headers.get("secretKey");
 			if (secretKey === null || secretKey !== "secret") {
-				console.log("Error in secretKey");
-				throw new Error();
+				throw createHttpError(
+					401,
+					"Not authorised, please include a secret key"
+				);
 			}
 			const user = await User.findOneAndDelete({_id: id});
 			if (user === null) {
-				console.log("can't find user!");
+				throw createHttpError(404, "User not found");
 			}
 			ctx.response.body = `User ${id} deleted`;
 		} catch (e) {
