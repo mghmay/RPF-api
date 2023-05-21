@@ -1,4 +1,5 @@
 import {User} from "../models/User.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 export default {
 	// deno-lint-ignore no-explicit-any
@@ -34,10 +35,16 @@ export default {
 				console.log("request needs a body");
 				throw Error();
 			}
+			// generate salt, default saltRounds is 10. Note: this can be increased to make password more secure
+			const salt = await bcrypt.genSalt();
+			//hash password with salt
+			const hashedPassword = await bcrypt.hash(requestBody.password, salt);
+			console.log(hashedPassword);
+
 			const user = new User({
 				username: requestBody.username,
 				email: requestBody.email,
-				password: requestBody.password,
+				password: hashedPassword,
 			});
 			await user.save();
 			ctx.response.status = 201;
@@ -56,7 +63,7 @@ export default {
 				console.log("Error in secretKey");
 				throw new Error();
 			}
-			const user = await User.findOne({_id: id});
+			const user = await User.findOneAndDelete({_id: id});
 			if (user === null) {
 				console.log("can't find user!");
 			}
