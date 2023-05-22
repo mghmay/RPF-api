@@ -1,13 +1,13 @@
 import {Application} from "https://deno.land/x/oak@v12.4.0/mod.ts";
-import {userRouter} from "./routes/userRouter.ts";
+import {router} from "./routes/router.ts";
 import {initDb} from "./db.ts";
 
 initDb();
 
 const app = new Application();
 
-app.use(userRouter.routes());
-app.use(userRouter.allowedMethods());
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 const port = 3000;
 

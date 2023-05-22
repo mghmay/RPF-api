@@ -51,6 +51,10 @@ export default {
 			if (requestBody === null) {
 				throw createHttpError(400, "Request needs a body");
 			}
+
+			if (requestBody.password === undefined) {
+				throw createHttpError(400, "Request needs a password");
+			}
 			// generate salt, default saltRounds is 10. Note: this can be increased to make password more secure
 			const salt = await bcrypt.genSalt();
 			//hash password with salt

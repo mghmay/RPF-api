@@ -1,7 +1,7 @@
 import {Router} from "https://deno.land/x/oak@v12.4.0/router.ts";
 import userController from "../controllers/userController.ts";
 
-export const userRouter = new Router({prefix: "/users"});
+export const userRouter = new Router();
 
 userRouter
 	.get("/", userController.getUsers)
