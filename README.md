@@ -57,5 +57,3 @@ The server should now be running on http://localhost:3000.
 ## API Reference
 
 The documentation can be found here: https://documenter.getpostman.com/view/22361139/2s93m4XNiT
-
---
