@@ -13,7 +13,7 @@ const SERVER_PORT = parseInt(Deno.env.get("SERVER_PORT")!) ?? 3000;
 const SERVER_HOST = Deno.env.get("SERVER_HOST") ?? "localhost";
 
 app.addEventListener("listen", () => {
-	console.log(`Listening on port ${SERVER_HOST}${SERVER_PORT}`);
+	console.log(`Listening on port ${SERVER_HOST}:${SERVER_PORT}`);
 });
 
 await app.listen({port: SERVER_PORT});
