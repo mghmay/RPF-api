@@ -18,7 +18,7 @@ To run it in development mode, you will need to have the following software inst
 Clone the repository:
 
 ```bash
-  git clone --
+  git clone https://github.com/mghmay/RPF-api
 ```
 
 ## Running the server
@@ -56,6 +56,6 @@ The server should now be running on http://localhost:3000.
 
 ## API Reference
 
-The documentation can be found here:
+The documentation can be found here: https://documenter.getpostman.com/view/22361139/2s93m4XNiT
 
 --
