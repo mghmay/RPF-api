@@ -9,12 +9,11 @@ const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-const port = 3000;
+const SERVER_PORT = parseInt(Deno.env.get("SERVER_PORT")!) ?? 3000;
+const SERVER_HOST = Deno.env.get("SERVER_HOST") ?? "localhost";
 
-app.addEventListener("listen", ({secure, port}) => {
-	const protocol = secure ? "https://" : "http://";
-	const url = `${protocol}${Deno.env.get("HOST") ?? "localhost"}:${port}`;
-	console.log(`Listening on: ${url}`);
+app.addEventListener("listen", () => {
+	console.log(`Listening on port ${SERVER_HOST}${SERVER_PORT}`);
 });
 
-await app.listen({port: port});
+await app.listen({port: SERVER_PORT});

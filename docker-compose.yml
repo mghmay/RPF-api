@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - ${SERVER_PORT}:${SERVER_PORT}
     restart: always
     depends_on:
       mongodb:
@@ -12,17 +12,15 @@ services:
       - .:/app
   mongodb:
     image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    env_file: .env
     ports:
-      - "27017:27017"
+      - ${MONGO_INITDB_PORT}:${MONGO_INITDB_PORT}
     volumes:
       - mongodb_data_container:/data/db
       - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     restart: always
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/api --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:${MONGO_INITDB_PORT}/${MONGO_INITDB_DATABASE} --quiet
       interval: 10s
       start_period: 20s
       timeout: 10s
