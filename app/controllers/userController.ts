@@ -57,7 +57,7 @@ export default {
 			}
 			// generate salt, default saltRounds is 10. Note: this can be increased to make password more secure
 			const salt = await bcrypt.genSalt();
-			//hash password with salt
+			// hash password with salt
 			const hashedPassword = await bcrypt.hash(requestBody.password, salt);
 
 			const user = new User({
@@ -65,6 +65,11 @@ export default {
 				email: requestBody.email,
 				password: hashedPassword,
 			});
+
+			if (requestBody.active !== undefined) {
+				user.active = requestBody.active;
+			}
+
 			await user.save();
 			ctx.response.status = 201;
 			ctx.response.body = {
