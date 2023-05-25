@@ -13,7 +13,7 @@ To run it in development mode, you will need to have the following software inst
 - Deno
 - Docker
 
-You will also need a .env file with the following keys (SERVER_HOST defaults to localhost, SERVER_PORT defaults to 3000)
+You will also need a .env file with the following keys:
 
 ```bash
   MONGO_INITDB_ROOT_USERNAME
