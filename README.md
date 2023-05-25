@@ -27,7 +27,6 @@ Optionally you can add the following .env variables:
 ```bash
   MONGO_USERNAME
   MONGO_PASSWORD
-  MONGO_PORT
   SERVER_HOST
   SERVER_PORT
 ```

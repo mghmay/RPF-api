@@ -5,8 +5,9 @@ const USER = Deno.env.get("MONGO_USERNAME") ?? "user";
 const PASSWORD = Deno.env.get("MONGO_PASSWORD") ?? "password";
 const HOST = Deno.env.get("MONGO_HOST") ?? "localhost";
 const DB = Deno.env.get("MONGO_INITDB_DATABASE") ?? "api";
-const PORT = Deno.env.get("MONGO_PORT") ?? "27017";
+const PORT = "27017";
 const URI = `mongodb://${USER}:${PASSWORD}@${HOST}:${PORT}/${DB}`;
+
 export const initDb = async () => {
 	await mongoose.connect(URI);
 };
