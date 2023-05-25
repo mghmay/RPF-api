@@ -80,6 +80,9 @@ export default {
 			// check if mongoose returns a validation error or a duplicate unique key error
 			if (e.name === "ValidationError" || e.code === 11000) {
 				ctx.response.status = 422;
+				// check for malformed request
+			} else if (e.name === "SyntaxError") {
+				ctx.response.status = 400;
 			} else {
 				ctx.response.status = e.status;
 			}
