@@ -1,8 +1,8 @@
 db = db.getSiblingDB(process.env["MONGO_INITDB_DATABASE"]);
 
 db.createUser({
-	user: process.env["MONGO_INITDB_USERNAME"],
-	pwd: process.env["MONGO_INITDB_PASSWORD"],
+	user: process.env["MONGO_USERNAME"] ?? "user",
+	pwd: process.env["MONGO_PASSWORD"] ?? "password",
 	roles: [
 		{
 			role: "readWrite",

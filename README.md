@@ -18,15 +18,18 @@ You will also need a .env file with the following keys (SERVER_HOST defaults to 
 ```bash
   MONGO_INITDB_ROOT_USERNAME
   MONGO_INITDB_ROOT_PASSWORD
-  MONGO_INITDB_USERNAME
-  MONGO_INITDB_PASSWORD
   MONGO_INITDB_DATABASE
-  MONGO_INITDB_PORT
+  SECRET_KEY
+```
 
+Optionally you can add the following .env variables:
+
+```bash
+  MONGO_USERNAME
+  MONGO_PASSWORD
+  MONGO_PORT
   SERVER_HOST
   SERVER_PORT
-
-  SECRET_KEY
 ```
 
 ## Installation

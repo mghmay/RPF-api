@@ -13,6 +13,4 @@ COPY . .
 
 RUN deno cache --unstable app/server.ts
 
-ENV MONGO_INITDB_HOST="mongodb"
-
 CMD deno run --allow-net --allow-env --allow-write --allow-read --allow-sys --unstable app/server.ts

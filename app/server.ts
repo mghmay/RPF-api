@@ -9,7 +9,7 @@ const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-const SERVER_PORT = parseInt(Deno.env.get("SERVER_PORT")!) ?? 3000;
+const SERVER_PORT = parseInt(Deno.env.get("SERVER_PORT") ?? "3000");
 const SERVER_HOST = Deno.env.get("SERVER_HOST") ?? "localhost";
 
 app.addEventListener("listen", () => {
