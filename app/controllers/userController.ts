@@ -51,7 +51,6 @@ export default {
 			if (requestBody === null) {
 				throw createHttpError(400, "Request needs a body");
 			}
-
 			if (requestBody.password === undefined) {
 				throw createHttpError(400, "Request needs a password");
 			}
@@ -65,11 +64,9 @@ export default {
 				email: requestBody.email,
 				password: hashedPassword,
 			});
-
 			if (requestBody.active !== undefined) {
 				user.active = requestBody.active;
 			}
-
 			await user.save();
 			ctx.response.status = 201;
 			ctx.response.body = {
